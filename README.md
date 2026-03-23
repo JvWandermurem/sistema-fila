@@ -40,8 +40,19 @@ O sistema segue o padrão de processamento assíncrono baseado em filas, permiti
    - Consome mensagens da fila   
 
 5. Banco de Dados (PostgreSQL)  
-   Armazena os dados de forma consistente  
+   Armazena os dados de forma consistente
 
+### Rotas
+
+- `GET /heath` 
+
+- `POST /data` 
+   - pode testar com
+   ```bash
+   curl -X POST http://localhost:8080/sua-rota-de-ingestao \
+  -H "Content-Type: application/json" \
+  -d '{"mensagem": "Hello RabbitMQ!", "id_cliente": 123}
+   ```
 ---
 
 ## Teste de Carga
@@ -74,6 +85,9 @@ O sistema foi validado utilizando k6, em ambiente isolado via Docker.
 | Mediana | 4.45 ms |
 | P90 | 11.74 ms |
 | P95 | 18.05 ms |
+
+
+![print rabbitmq](assets/rabbitmq.png)
 
 ---
 
