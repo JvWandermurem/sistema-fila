@@ -1,0 +1,22 @@
+FROM rust:1.94-slim-bookworm AS builder
+WORKDIR /usr/src/app
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y pkg-config libssl-dev
+
+COPY . .
+
+RUN cargo build --release
+
+FROM debian:bookworm-slim
+WORKDIR /app
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y libssl-dev ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /usr/src/app/target/release/ingestao-massiva /app/ingestao-massiva
+
+EXPOSE 8080
+
+CMD ["./ingestao-massiva"]
